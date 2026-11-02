@@ -1,0 +1,12 @@
+# Brand colours taken from the DHF logo
+[theme]
+base = "light"
+primaryColor = "#2E7D55"
+backgroundColor = "#F4FAF6"
+secondaryBackgroundColor = "#DDF0E4"
+textColor = "#1D2B24"
+
+[server]
+headless = true
+runOnSave = true
+fileWatcherType = "poll"   # reliable change detection, even inside a OneDrive folder
