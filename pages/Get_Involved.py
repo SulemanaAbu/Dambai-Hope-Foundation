@@ -21,7 +21,7 @@ st.markdown(f"""
 .donate h2 {{ color: {theme.MINT} !important; font-size: 2.3rem; margin: 0 0 .6rem; }}
 .donate p {{ color: #fff !important; font-size: 1.2rem; max-width: none; margin: 0 0 1.1rem; }}
 .donate a.num {{ display: inline-block; background: #fff; color: {theme.DEEP} !important; font-size: 1.9rem;
-  font-weight: 800; padding: .5rem 1.5rem; border-radius: 999px; text-decoration: none; }}
+  font-weight: 500; padding: .5rem 1.5rem; border-radius: 999px; text-decoration: none; }}
 .donate a.num:hover {{ background: {theme.MINT}; }}
 .donate .who {{ color: {theme.MINT} !important; font-weight: 700; margin: .9rem 0 0; }}
 .contact-card {{ background: {theme.TINT}; border-left: 8px solid {theme.GREEN}; border-radius: 14px;
