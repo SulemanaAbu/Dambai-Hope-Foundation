@@ -117,6 +117,20 @@ h1, h2, h3, h4 {{ font-family: 'Bricolage Grotesque', sans-serif !important; col
 .st-key-navbar [data-testid="stPageLink"] p, .st-key-navbar [data-testid="stPageLink"] span {{
   font-size: 1rem !important; font-weight: 700 !important; color: {DEEP} !important;
   text-transform: uppercase; letter-spacing: .08em; }}
+/* phones: keep the four tabs in ONE row inside a compact rounded bar, and shrink the logo */
+@media (max-width: 640px) {{
+  .st-key-logo [data-testid="stImage"] {{ width: 76px !important; }}
+  .st-key-logo img {{ max-width: 76px !important; }}
+  .st-key-navbar {{ border-radius: 18px; padding: .25rem .35rem; }}
+  .st-key-navbar::before {{ background-size: auto 260%; background-position: right -14% center; opacity: .14; }}
+  .st-key-navbar [data-testid="stHorizontalBlock"] {{ flex-direction: row !important; flex-wrap: nowrap !important; gap: .1rem !important; }}
+  .st-key-navbar [data-testid="stColumn"], .st-key-navbar [data-testid="column"] {{
+    min-width: 0 !important; width: auto !important; flex: 1 1 0 !important; }}
+  .st-key-navbar [data-testid="stPageLink"] a {{ padding: .5rem .15rem; }}
+  .st-key-navbar [data-testid="stPageLink"] p, .st-key-navbar [data-testid="stPageLink"] span {{
+    font-size: .68rem !important; letter-spacing: .02em !important; white-space: normal !important;
+    text-align: center; line-height: 1.15; }}
+}}
 /* keep the faded logo behind everything */
 [data-testid="stAppViewContainer"] {{ position: relative; z-index: 1; }}
 [data-testid="stAppViewContainer"], [data-testid="stMain"] {{ background: transparent !important; }}
@@ -188,7 +202,9 @@ def setup(title: str):
     st.markdown(CSS + _watermark_css(), unsafe_allow_html=True)
     # Row: logo alone at the left, then a menu pill that stretches to the right edge of the page
     logo_col, menu_col = st.columns([1, 9], vertical_alignment="center")
-    logo_col.image(_logo_png(), width=100)
+    with logo_col:
+        with st.container(key="logo"):
+            st.image(_logo_png(), width=100)
     with menu_col:
         with st.container(key="navbar"):
             cols = st.columns(4)                            # four equal columns = tabs spread out evenly
@@ -255,9 +271,9 @@ def send_email(kind: str, name: str, email: str, phone: str, message: str) -> bo
             f"New message from the DHF website\n\n"
             f"Type:    {kind}\nName:    {name}\nEmail:   {email}\n"
             f"Phone:   {phone or '-'}\n\nMessage:\n{message}\n")
-        with smtplib.SMTP_SSL("smtp.gmail.com", 465,
-                              context=ssl.create_default_context(), timeout=15) as server:
-            server.login(cfg["sender"], cfg["app_password"])
+        with smtplib.SMTP_SSL("smtp.gmail.com", 465, context=ssl.create_default_context(),
+                              timeout=15, local_hostname="localhost") as server:
+            server.login(cfg["sender"], str(cfg["app_password"]).replace(" ", ""))   # Gmail codes work without spaces
             server.send_message(msg)
         return True
     except Exception:
