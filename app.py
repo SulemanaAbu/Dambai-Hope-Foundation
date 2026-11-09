@@ -10,9 +10,11 @@ theme.setup("Home")
 # Save a photo in the assets/ folder, then add a line here: ("file name", "caption").
 # ------------------------------------------------------------------
 PHOTOS = [
-    ("outreach_session.jpg"),
+    ("outreach2.jpg"),
     ("book_presentation.jpg"),
-    ("team_with_students.jpg"),
+    ("team2.jpg"),
+    ("medic1.jpg"),
+    ("medic2.jpg")
 ]
 
 # Link buttons: green with white text

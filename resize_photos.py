@@ -37,5 +37,5 @@ for p in files:
 
 total = len(list(DEST.glob("*.jpg")))
 print(f"\nDone. assets/gallery now holds {total} photo(s). They appear on the Home page automatically.")
-if total > 10:
+if total > 15:
     print("Tip: more than 10 photos makes the page slower to load, especially on phones.")
