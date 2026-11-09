@@ -6,7 +6,7 @@ VOLUNTEER_FORM_URL = "https://docs.google.com/forms/d/e/1FAIpQLScOuaHC_LuJBkN_zY
 
 # 2) Google Drive folder with the outreach photos. Right-click the folder > Share > set "Anyone with the link"
 #    > Copy link.
-PHOTOS_DRIVE_URL = ""
+PHOTOS_DRIVE_URL = "https://drive.google.com/drive/folders/1ydMh-H5VZ1ER1-3-WfCNZEr4846t-dCG"
 
 # Show the photo album directly on the Home page (needs the folder shared as "Anyone with the link").
 EMBED_ALBUM = True
