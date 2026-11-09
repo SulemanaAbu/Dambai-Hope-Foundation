@@ -63,7 +63,7 @@ if links.PHOTOS_DRIVE_URL:
     st.write("Browse more photos from our school visits and community outreach.")
     st.link_button("Open the full photo album", links.PHOTOS_DRIVE_URL, type="primary")
     if links.EMBED_ALBUM and links.album_embed_url():
-        components.iframe(links.album_embed_url(), height=520, scrolling=True)
+        components.iframe(links.album_embed_url(), height=220, scrolling=True)
 
 # Call to action
 theme.html("""<div class="cta"><h2>Every young person deserves a second chance</h2>
