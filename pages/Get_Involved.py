@@ -1,6 +1,7 @@
 import re
 import streamlit as st
-from utils import theme
+import streamlit.components.v1 as components
+from utils import links, theme
 
 theme.setup("Get involved")
 theme.page_title("Get involved", "Volunteer, partner with us, donate, or just say hello")
@@ -13,15 +14,18 @@ DONATE_WHO = "Issah Tairu, President and Founder"
 DONATE_PHONE = "+233 53 636 1384"
 DONATE_TEL = "+233536361384"
 
-# Styles for this page only (the donate card, the larger contact cards, the send button)
+# Styles for this page only (volunteer card, donate card, contact cards, buttons)
 st.markdown(f"""
 <style>
+.st-key-volunteer {{ background: {theme.TINT}; border-left: 8px solid {theme.GREEN}; border-radius: 14px;
+  padding: 1.4rem 1.8rem 1.6rem; margin-bottom: 1.5rem; }}
+.st-key-volunteer h2 {{ margin: 0 0 .4rem; font-size: 2rem; }}
 .donate {{ background: linear-gradient(120deg, {theme.DEEP}, {theme.GREEN}); border-radius: 22px;
   padding: 2.2rem 2.4rem; margin-top: 1.5rem; box-shadow: 0 8px 24px rgba(30,90,60,.25); }}
 .donate h2 {{ color: {theme.MINT} !important; font-size: 2.3rem; margin: 0 0 .6rem; }}
 .donate p {{ color: #fff !important; font-size: 1.2rem; max-width: none; margin: 0 0 1.1rem; }}
 .donate a.num {{ display: inline-block; background: #fff; color: {theme.DEEP} !important; font-size: 1.9rem;
-  font-weight: 500; padding: .5rem 1.5rem; border-radius: 999px; text-decoration: none; }}
+  font-weight: 800; padding: .5rem 1.5rem; border-radius: 999px; text-decoration: none; }}
 .donate a.num:hover {{ background: {theme.MINT}; }}
 .donate .who {{ color: {theme.MINT} !important; font-weight: 700; margin: .9rem 0 0; }}
 .contact-card {{ background: {theme.TINT}; border-left: 8px solid {theme.GREEN}; border-radius: 14px;
@@ -33,20 +37,35 @@ st.markdown(f"""
   word-break: break-word; }}
 .contact-card a:hover {{ text-decoration: underline; }}
 .contact-card a.small {{ font-size: 1.2rem; }}
-/* Send message button: green with white text */
-[data-testid="stFormSubmitButton"] button {{ background: {theme.GREEN} !important; border: none !important; }}
-[data-testid="stFormSubmitButton"] button:hover {{ background: {theme.DEEP} !important; }}
-[data-testid="stFormSubmitButton"] button, [data-testid="stFormSubmitButton"] button p {{
-  color: #fff !important; font-weight: 700; }}
+/* buttons: green with white text */
+[data-testid="stFormSubmitButton"] button, [data-testid="stLinkButton"] a {{
+  background: {theme.GREEN} !important; border: none !important; }}
+[data-testid="stFormSubmitButton"] button:hover, [data-testid="stLinkButton"] a:hover {{
+  background: {theme.DEEP} !important; }}
+[data-testid="stFormSubmitButton"] button, [data-testid="stFormSubmitButton"] button p,
+[data-testid="stLinkButton"] a, [data-testid="stLinkButton"] a p {{ color: #fff !important; font-weight: 700; }}
 </style>
 """, unsafe_allow_html=True)
 
 left, right = st.columns([3, 2], gap="large")
 
 with left:
+    # ---- Volunteer card (your Google Form), shown BEFORE the contact form ----
+    with st.container(key="volunteer"):
+        st.markdown("## Volunteer with us")
+        st.write("Want to help young people in Dambai? Fill in our short volunteer form "
+                 "and we will get back to you.")
+        if links.VOLUNTEER_FORM_URL:
+            st.link_button("Fill in the volunteer form", links.VOLUNTEER_FORM_URL, type="primary")
+        else:
+            st.info(f"Volunteer sign-ups open soon. In the meantime, email us at {theme.CONTACT['email']}.")
+    if links.VOLUNTEER_FORM_URL and links.EMBED_VOLUNTEER_FORM:
+        components.iframe(links.volunteer_embed_url(), height=900, scrolling=True)
+
+    # ---- General contact form (Volunteer is no longer in this list) ----
     st.markdown("### Send us a message")
     with st.form("contact_form", clear_on_submit=True):
-        kind = st.selectbox("I would like to", ["Volunteer", "Partner with DHF", "Donate", "Ask a question"])
+        kind = st.selectbox("I would like to", ["Partner with DHF", "Donate", "Ask a question"])
         name = st.text_input("Full name")
         email = st.text_input("Email")
         phone = st.text_input("Phone (optional)")

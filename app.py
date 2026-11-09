@@ -1,8 +1,28 @@
 """Home page. Run the site with:  streamlit run app.py"""
 import streamlit as st
-from utils import hero, theme
+import streamlit.components.v1 as components
+from utils import gallery, hero, links, theme
 
-theme.setup("HOME")
+theme.setup("Home")
+
+# ------------------------------------------------------------------
+# EDIT ME: the photos in the sliding strip under "Our work on the ground".
+# Save a photo in the assets/ folder, then add a line here: ("file name", "caption").
+# ------------------------------------------------------------------
+PHOTOS = [
+    ("outreach_session.jpg"),
+    ("book_presentation.jpg"),
+    ("team_with_students.jpg"),
+]
+
+# Link buttons: green with white text
+st.markdown(f"""
+<style>
+[data-testid="stLinkButton"] a {{ background: {theme.GREEN} !important; border: none !important; }}
+[data-testid="stLinkButton"] a:hover {{ background: {theme.DEEP} !important; }}
+[data-testid="stLinkButton"] a, [data-testid="stLinkButton"] a p {{ color: #fff !important; font-weight: 700; }}
+</style>
+""", unsafe_allow_html=True)
 
 # Hero: team photo with the motto typing itself out when the page opens
 hero.typed_hero(
@@ -33,13 +53,17 @@ for col, p in zip(cols, theme.PILLARS):
         theme.pillar_card(p)
 st.page_link("pages/Programs.py", label="See our programs in detail")
 
-# Photos from the field
+# Photos from the field: cards sliding from left to right
 st.markdown("## Our work on the ground")
-g1, g2 = st.columns(2, gap="medium")
-with g1:
-    theme.photo("outreach_session.jpg", "Students listening during an outreach session")
-with g2:
-    theme.photo("book_presentation.jpg", "A DHF volunteer presents a book to a student")
+gallery.photo_marquee(PHOTOS)
+
+# More photos: your Google Drive album (appears once you paste the link in utils/links.py)
+if links.PHOTOS_DRIVE_URL:
+    st.markdown("### More from our outreach")
+    st.write("Browse more photos from our school visits and community outreach.")
+    st.link_button("Open the full photo album", links.PHOTOS_DRIVE_URL, type="primary")
+    if links.EMBED_ALBUM and links.album_embed_url():
+        components.iframe(links.album_embed_url(), height=520, scrolling=True)
 
 # Call to action
 theme.html("""<div class="cta"><h2>Every young person deserves a second chance</h2>
