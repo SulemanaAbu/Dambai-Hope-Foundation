@@ -16,7 +16,7 @@ import streamlit as st
 ASSETS = Path(__file__).resolve().parent.parent / "assets"
 
 # ---- Tweak the carousel here -------------------------------------------------
-SECONDS_PER_CARD = 4      # bigger number = slower sliding
+SECONDS_PER_CARD = 3      # bigger number = slower sliding
 SHOW_CAPTIONS = False     # True = show the text under each photo (only photos that have a caption)
 # ------------------------------------------------------------------------------
 
